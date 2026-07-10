@@ -1,0 +1,843 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Outfit:wght@300;400;600&display=swap');
+
+:root {
+  --bg-color: #f6f8fa; /* Even softer desk color */
+  --text-color: #2d3748;
+  --accent-color: #8fa6cb; 
+  --polaroid-bg: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #faf9f6; /* Paper white */
+  background-image: 
+    linear-gradient(#e5e5e5 1px, transparent 1px),
+    linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: var(--text-color);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  cursor: none; 
+}
+
+a, button {
+  cursor: none;
+}
+
+h1, h2, h3 {
+  color: #2d3748;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero Section */
+.hero-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  background: transparent;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -2px;
+  margin-bottom: 1rem;
+  color: #2d3748;
+  position: relative;
+  display: inline-block;
+}
+
+.title-word {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.title-letter {
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.title-letter:hover {
+  transform: translateY(-10px) rotate(5deg) scale(1.1);
+  color: var(--accent-color);
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 300;
+  max-width: 600px;
+  line-height: 1.6;
+  color: #718096;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+/* User Doodle Layer */
+.user-doodle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none; /* Only active when drawing mode is on */
+}
+
+.user-doodle-canvas.active {
+  pointer-events: auto;
+  cursor: crosshair !important;
+}
+
+.thrown-doodles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let clicks pass through to the page */
+  z-index: 9998;
+}
+
+.thrown-doodles-container svg {
+  pointer-events: auto; /* Allow grabbing the individual doodles */
+}
+
+.doodle-toolbar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+  background: #fff;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: move;
+}
+
+.toolbar-btn {
+  background: #e2e8f0;
+  border: 2px solid #000;
+  padding: 8px 12px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toolbar-btn:hover {
+  background: #cbd5e0;
+}
+
+.active-btn {
+  background: #ffeb3b !important;
+}
+
+.color-picker {
+  display: flex;
+  gap: 5px;
+  border-left: 2px solid #000;
+  padding-left: 10px;
+}
+
+.color-btn {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.selected-color {
+  transform: scale(1.2);
+  border-width: 3px;
+}
+
+/* Background Doodles */
+.background-doodles-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Below content, above orbs */
+  pointer-events: none; /* Let clicks pass through, but we enable it on children */
+  overflow: hidden;
+}
+
+.chaotic-text {
+  position: absolute;
+  font-family: 'Caveat', cursive;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.static-doodle {
+  position: absolute;
+  pointer-events: auto; /* Allow hover */
+  opacity: 0.8;
+}
+
+.static-doodle:hover {
+  opacity: 1;
+}
+
+/* Hero Interactive Floaters */
+.interactive-floater {
+  position: absolute;
+  z-index: 5;
+  cursor: pointer;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+/* Polaroid Timeline Desk */
+.timeline-container {
+  min-height: 150vh;
+  padding: 4rem 2rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.desk-surface {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 1800px; /* Taller for more content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.polaroid-wrapper {
+  cursor: grab;
+  position: relative;
+  /* Add subtle vintage filter that clears on hover for extra aesthetic */
+  filter: sepia(0.2) contrast(0.95);
+  transition: filter 0.4s ease;
+}
+
+.polaroid-wrapper:hover {
+  filter: sepia(0) contrast(1.05);
+}
+
+.polaroid-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Tape on polaroids */
+.polaroid-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 80px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+/* Polaroid Card Style */
+.puzzle-box {
+  background: #fff;
+  padding: 3rem;
+  border-radius: 0;
+  box-shadow: 8px 8px 0px rgba(0,0,0,1);
+  border: 4px solid #000;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.polaroid-card {
+  background: var(--polaroid-bg);
+  padding: 16px 16px 40px 16px;
+  border-radius: 0;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.9);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid #000;
+  user-select: none;
+  /* Messy paper texture */
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.polaroid-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #e2e8f0;
+  margin-bottom: 16px;
+  border-radius: 2px;
+}
+
+.polaroid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; 
+}
+
+.polaroid-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: 'Caveat', cursive; 
+}
+
+.polaroid-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 4px;
+}
+
+.polaroid-date {
+  font-size: 1.1rem;
+  color: #718096;
+  margin-bottom: 12px;
+}
+
+.polaroid-description {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: #4a5568;
+}
+
+.polaroid-hint {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: #a0aec0;
+  font-style: italic;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom Cursor adjustments */
+.custom-cursor {
+  mix-blend-mode: multiply;
+}
+
+/* Desk Decorations */
+.decoration {
+  position: absolute;
+  z-index: 10;
+  user-select: none;
+}
+
+.sticky-note {
+  background: #ffeb3b;
+  width: 150px;
+  height: 150px;
+  padding: 20px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 0;
+  transform: rotate(-2deg);
+}
+
+.washi-tape {
+  background: #ff6699; 
+  width: 120px;
+  height: 35px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+  opacity: 0.9;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
+}
+
+.doodle-icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.8));
+}
+
+/* Core Memories Glowing Doodles */
+.core-memories-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Container passes clicks */
+  z-index: 50; /* Above timeline but below modal */
+}
+
+.glowing-doodle {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cheap-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.core-badge {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #ffeb3b;
+  color: #000;
+  border: 3px solid #000;
+  padding: 5px 10px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: bold;
+  transform: rotate(10deg);
+  box-shadow: 2px 2px 0px #000;
+  z-index: 10;
+}
+
+.core-memory-polaroid {
+  border: 5px solid #ffeb3b !important;
+  box-shadow: 0 0 30px rgba(255, 235, 59, 0.6), 6px 6px 0px #000 !important;
+  background-color: #fff9c4 !important;
+}
+
+.map-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 11000;
+  backdrop-filter: blur(2px);
+  pointer-events: auto;
+}
+
+.map-modal {
+  background: #fff;
+  padding: 3rem;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modal-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.map-modal h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.map-question-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.puzzle-input {
+  width: 100%;
+  padding: 12px;
+  border: 3px solid #000;
+  border-radius: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  outline: none;
+  text-align: center;
+}
+
+.error-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  border-color: #fc8181 !important;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.puzzle-submit {
+  padding: 12px;
+  background: #000;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.puzzle-submit:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.puzzle-cancel {
+  padding: 8px;
+  background: #e2e8f0;
+  color: #000;
+  border: 2px solid #000;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* -------------------------------------
+   MOBILE OPTIMIZATION 
+   ------------------------------------- */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 4rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .polaroid-card {
+    width: 260px; /* Scale down for mobile */
+    padding: 10px 10px 30px 10px;
+  }
+  
+  .polaroid-image {
+    height: 200px;
+  }
+  
+  .desk-surface {
+    min-height: 250vh; /* Allow less vertical space so they pack tighter on mobile */
+  }
+
+  .doodle-toolbar {
+    bottom: 10px;
+    right: 10px;
+    padding: 5px;
+    flex-wrap: wrap; /* Allow wrapping if too wide */
+    max-width: 90vw;
+  }
+
+  .toolbar-btn {
+    padding: 5px 8px;
+    font-size: 0.9rem;
+  }
+  
+  .color-picker {
+    border-left: none;
+    border-top: 2px solid #000;
+    padding-left: 0;
+    padding-top: 5px;
+    margin-top: 5px;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .chaotic-text {
+    font-size: 1.5rem; /* Scale down text */
+  }
+
+  .footer-container {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 1rem;
+    text-align: center;
+  }
+}
+
+/* Footer */
+.footer-container {
+  margin: 4rem auto;
+  padding: 1.5rem 3rem;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0px #000;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.credit-text {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.heart-icon {
+  color: #fc8181;
+  fill: #fc8181;
+}
+
+.author-name {
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-link {
+  color: #718096;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover {
+  color: var(--accent-color);
+}
+
+/* Dreamy Background blobs */
+.ambient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.35;
+}
+
+.orb-1 { width: 50vw; height: 50vw; background: #c3d4ee; top: -10%; left: -10%; }
+.orb-2 { width: 40vw; height: 40vw; background: #e2d1f9; top: 40%; right: -5%; }
+/* CRT TV Styling */
+.tv-shell {
+  background: #333;
+  width: 320px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: inset -5px -5px 15px rgba(0,0,0,0.8), 
+              inset 5px 5px 15px rgba(255,255,255,0.2), 
+              8px 8px 0px rgba(0,0,0,1);
+  border: 4px solid #000;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  user-select: none;
+}
+
+.tv-antenna {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+  z-index: -1;
+}
+
+.antenna-stick {
+  position: absolute;
+  bottom: 0;
+  width: 4px;
+  height: 60px;
+  background: #a0aec0;
+  border: 2px solid #000;
+}
+
+.antenna-stick.left {
+  left: 5px;
+  transform: rotate(-30deg);
+  transform-origin: bottom center;
+}
+
+.antenna-stick.right {
+  right: 5px;
+  transform: rotate(45deg);
+  transform-origin: bottom center;
+}
+
+.tv-inner {
+  display: flex;
+  gap: 15px;
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,1);
+  border: 3px solid #000;
+}
+
+.tv-screen-container {
+  flex: 1;
+  position: relative;
+  background: #000;
+  border-radius: 20px 20px 20px 20px / 50% 50% 50% 50%; /* Curved CRT shape */
+  overflow: hidden;
+  border: 4px solid #4a5568;
+  box-shadow: inset 0 0 20px rgba(0,0,0,1);
+  aspect-ratio: 4 / 3;
+}
+
+.tv-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.2) saturate(1.2) sepia(0.2);
+}
+
+.crt-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.crt-glass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.1) 0%,
+    rgba(0,0,0,0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: inset 0 0 15px rgba(255,255,255,0.1);
+}
+
+.tv-controls {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.tv-dial {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #4a5568;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px rgba(0,0,0,1);
+  position: relative;
+}
+
+.tv-dial::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 4px;
+  background: #000;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.tv-speaker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.speaker-hole {
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+}
+
+.tv-label {
+  margin-top: 15px;
+  text-align: center;
+  background: #ffeb3b;
+  padding: 5px;
+  border: 2px solid #000;
+  transform: rotate(-2deg);
+  font-family: 'Caveat', cursive;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.tv-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.tv-date {
+  font-size: 1rem;
+  font-family: 'Outfit', sans-serif;
+}
