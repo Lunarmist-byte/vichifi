@@ -5,20 +5,21 @@ import MemoryCard from './MemoryCard';
 import '../styles/index.css';
 
 const hiddenItems = [
-  { id: 1, type: 'memory', icon: <Flower size={48} />, x: 10, y: 30, color: "#ffeb3b", question: "What is the most ordered item?", answer: "maggi", memory: { id: 101, title: "Canteen Survival", date: "August 2022", description: "Where we fought for survival and Maggi.", imageUrl: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800" } },
-  { id: 2, type: 'memory', icon: <Star size={48} />, x: 85, y: 50, color: "#00C896", question: "What is the penalty for a late book return (in Rs)?", answer: "10", memory: { id: 102, title: "Library Fines", date: "October 2022", description: "Easy to get lost, harder to find a seat.", imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=800" } },
-  { id: 3, type: 'memory', icon: <Sparkles size={48} />, x: 15, y: 90, color: "#3366FF", question: "What is the first programming language we learned?", answer: "c", memory: { id: 103, title: "Hello World", date: "January 2023", description: "Where code went to die and be resurrected.", imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800" } },
-  { id: 4, type: 'memory', icon: <Sun size={48} />, x: 75, y: 140, color: "#FF9900", question: "Fill the blank: Study ___, not hard.", answer: "smart", memory: { id: 104, title: "All Nighters", date: "May 2024", description: "Dark, scary, and full of all-nighters.", imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800" } },
-  { id: 5, type: 'memory', icon: <Moon size={48} />, x: 10, y: 190, color: "#9f7aea", question: "What year do we graduate?", answer: "2026", memory: { id: 105, title: "Graduation", date: "June 2026", description: "The final boss. We made it out alive.", imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800" } },
-  { id: 6, type: 'dare', icon: <Flame size={48} />, x: 80, y: 20, color: "#FF3366", dareText: "Dare: Text your favorite senior right now and say 'I miss you'!" },
+  { id: 1, type: 'memory', icon: <Flower size={48} />, x: 10, y: 30, color: "#ffeb3b", question: "mittayi vanitum orakam mukyam bigilee enne paranje aru!", answer: "deepa miss", memory: { id: 101, title: "bakalava", date: "August 2022", description: "Where we fought for survival and Maggi.", imageUrl: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800" } },
+  { id: 2, type: 'memory', icon: <Star size={48} />, x: 85, y: 50, color: "#00C896", question: "Joji thumbi copyright adikane aale are", answer: "vivo", memory: { id: 102, title: "Library Fines", date: "October 2022", description: "Easy to get lost, harder to find a seat.", imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=800" } },
+  { id: 3, type: 'memory', icon: <Sparkles size={48} />, x: 15, y: 90, color: "#3366FF", question: "Tinkerhub ille padipist are", answer: "fidha", memory: { id: 103, title: "Hello World", date: "January 2023", description: "Where code went to die and be resurrected.", imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800" } },
+  { id: 4, type: 'memory', icon: <Sun size={48} />, x: 75, y: 140, color: "#FF9900", question: "Tinkerhub ille chor bazaar nadathiye are", answer: "chai", memory: { id: 104, title: "All Nighters", date: "May 2024", description: "Dark, scary, and full of all-nighters.", imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800" } },
+  { id: 5, type: 'memory', icon: <Moon size={48} />, x: 10, y: 190, color: "#9f7aea", question: "Tinkercarnival inne rathri biscuit thine bengaliye vayi nokkal nayiche ara", answer: "chai", memory: { id: 105, title: "Graduation", date: "June 2026", description: "The final boss. We made it out alive.", imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800" } },
+  { id: 6, type: 'dare', icon: <Flame size={48} />, x: 80, y: 20, color: "#FF3366", dareText: "Dare: Run till the beach" },
   { id: 7, type: 'dare', icon: <Zap size={48} />, x: 5, y: 65, color: "#00E5FF", dareText: "Dare: Do 10 pushups immediately." },
-  { id: 8, type: 'dare', icon: <Heart size={48} />, x: 85, y: 110, color: "#FF1493", dareText: "Dare: Yell the college anthem out loud!" },
-  { id: 9, type: 'dare', icon: <Camera size={48} />, x: 25, y: 160, color: "#7FFF00", dareText: "Dare: Take a funny selfie and put it on your story." },
+  { id: 8, type: 'dare', icon: <Heart size={48} />, x: 85, y: 110, color: "#FF1493", dareText: "Dare:Kudikan ndelum ellarkum mediche thaa" },
+  { id: 9, type: 'dare', icon: <Camera size={48} />, x: 25, y: 160, color: "#7FFF00", dareText: "Dare: Find a funny selfie during tinkerhub and put it on your story." },
   { id: 10, type: 'dare', icon: <Music size={48} />, x: 70, y: 220, color: "#FF4500", dareText: "Dare: Sing the chorus of your favorite song." }
 ];
 
 const CoreMemories = () => {
   const [unlockedMemories, setUnlockedMemories] = useState([]);
+  const [visibleMemories, setVisibleMemories] = useState([]);
   const [activeDoodle, setActiveDoodle] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [isError, setIsError] = useState(false);
@@ -38,8 +39,14 @@ const CoreMemories = () => {
 
     if (activeDoodle.type === 'memory') {
       if (inputValue.toLowerCase().trim() === activeDoodle.answer.toLowerCase()) {
-        setUnlockedMemories(prev => [...prev, activeDoodle.id]);
+        const id = activeDoodle.id;
+        setUnlockedMemories(prev => [...prev, id]);
+        setVisibleMemories(prev => [...prev, id]);
         setActiveDoodle(null);
+
+        setTimeout(() => {
+          setVisibleMemories(prev => prev.filter(mId => mId !== id));
+        }, 10000);
       } else {
         setIsError(true);
         setTimeout(() => setIsError(false), 1000);
@@ -79,8 +86,9 @@ const CoreMemories = () => {
         );
       })}
 
-      {unlockedMemories.map((id) => {
-        const item = hiddenItems.find(d => d.id === id);
+      <AnimatePresence>
+        {visibleMemories.map((id) => {
+          const item = hiddenItems.find(d => d.id === id);
         if (item.type !== 'memory') return null;
 
         return (
@@ -89,6 +97,7 @@ const CoreMemories = () => {
             className="polaroid-wrapper core-memory-polaroid"
             initial={{ scale: 0, opacity: 0, y: 100 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0 }}
             transition={{ type: "spring", bounce: 0.6 }}
             style={{
               position: 'fixed',
@@ -103,9 +112,10 @@ const CoreMemories = () => {
           >
             <MemoryCard memory={item.memory} isLast={false} />
             <div className="core-badge">CORE MEMORY</div>
-          </motion.div>
-        );
-      })}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
 
       <AnimatePresence>
         {activeDoodle && (

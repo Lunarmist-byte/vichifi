@@ -9,7 +9,18 @@ const UserDoodleLayer = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState('#FF3366');
   
-  const [strokes, setStrokes] = useState([]);
+  const [strokes, setStrokes] = useState(() => {
+    try {
+      const saved = localStorage.getItem('vichifi_doodles');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('vichifi_doodles', JSON.stringify(strokes));
+  }, [strokes]);
   
   const currentPointsRef = useRef([]);
 
@@ -200,10 +211,14 @@ const UserDoodleLayer = () => {
                 />
               ))}
             </div>
-            <button className="toolbar-btn" onClick={clearAll} title="Clear Drawings">
-              <Eraser size={20} />
-            </button>
           </>
+        )}
+        
+        {strokes.length > 0 && (
+          <button className="toolbar-btn" onClick={clearAll} title="Clear Doodles">
+            <Eraser size={20} />
+            <span>Clear Doodles</span>
+          </button>
         )}
       </motion.div>
     </>

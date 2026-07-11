@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { ChevronDown, Send, Sparkles } from 'lucide-react';
 import '../styles/index.css';
@@ -5,6 +6,14 @@ import '../styles/index.css';
 const HeroSection = () => {
   const title = "വിവേകം ചൈത്രം ഫിദയം".split(" ");
   const planeControls = useAnimation();
+  const [isDraggable, setIsDraggable] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDraggable(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handlePlaneClick = () => {
     planeControls.start({
@@ -46,7 +55,14 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       >
-        <h1 className="hero-title">
+        <motion.h1 
+          className="hero-title"
+          drag={isDraggable}
+          dragMomentum={true}
+          whileDrag={isDraggable ? { cursor: 'grabbing', scale: 1.1, zIndex: 100 } : {}}
+          whileHover={isDraggable ? { cursor: 'grab' } : {}}
+          style={{ userSelect: 'none' }}
+        >
           {title.map((word, i) => {
             const segmenter = new Intl.Segmenter('ml', { granularity: 'grapheme' });
             const letters = Array.from(segmenter.segment(word)).map(s => s.segment);
@@ -61,12 +77,17 @@ const HeroSection = () => {
               </span>
             );
           })}
-        </h1>
+        </motion.h1>
         <motion.p
           className="hero-subtitle"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.5 }}
+          drag={isDraggable}
+          dragMomentum={true}
+          whileDrag={isDraggable ? { cursor: 'grabbing', scale: 1.1, zIndex: 100 } : {}}
+          whileHover={isDraggable ? { cursor: 'grab' } : {}}
+          style={{ userSelect: 'none' }}
         >
           മൺമറഞ്ഞ കലാപ്രതിഭകൾ
         </motion.p>

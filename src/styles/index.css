@@ -114,6 +114,7 @@ h1, h2, h3 {
 .user-doodle-canvas.active {
   pointer-events: auto;
   cursor: crosshair !important;
+  touch-action: none;
 }
 
 .thrown-doodles-container {
@@ -242,7 +243,7 @@ h1, h2, h3 {
   position: relative;
   width: 100%;
   max-width: 1200px;
-  min-height: 1800px; /* Taller for more content */
+  min-height: 100vh; /* Fit to screen instead of extending */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,7 +251,7 @@ h1, h2, h3 {
 
 .polaroid-wrapper {
   cursor: grab;
-  position: relative;
+  position: absolute;
   /* Add subtle vintage filter that clears on hover for extra aesthetic */
   filter: sepia(0.2) contrast(0.95);
   transition: filter 0.4s ease;
