@@ -232,7 +232,6 @@ h1, h2, h3 {
 
 /* Polaroid Timeline Desk */
 .timeline-container {
-  min-height: 6000px;
   padding: 4rem 2rem;
   position: relative;
   display: flex;
@@ -553,11 +552,15 @@ h1, h2, h3 {
    ------------------------------------- */
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 12vw, 4rem);
   }
   
   .hero-subtitle {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 5vw, 1.5rem);
+  }
+  
+  .tv-shell {
+    max-width: 90vw;
   }
   
   .polaroid-card {

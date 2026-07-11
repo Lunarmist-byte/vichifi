@@ -5,11 +5,11 @@ import MemoryCard from './MemoryCard';
 import '../styles/index.css';
 
 const hiddenItems = [
-  { id: 1, type: 'dare', icon: <Flower size={48} />, x: 10, y: 30, color: "#ffeb3b", dareText: "Dare: Call Deepa miss and tell her 'Orakkam mukhyam bigilee'!" },
-  { id: 2, type: 'dare', icon: <Star size={48} />, x: 85, y: 50, color: "#00C896", dareText: "Dare: Confess about the Joji thumbi copyright strike to Vivo!" },
-  { id: 3, type: 'dare', icon: <Sparkles size={48} />, x: 15, y: 90, color: "#3366FF", dareText: "Dare: Teach Fidha how to center a div without looking it up." },
-  { id: 4, type: 'dare', icon: <Sun size={48} />, x: 75, y: 140, color: "#FF9900", dareText: "Dare: Buy Chai for everyone in the chor bazaar!" },
-  { id: 5, type: 'dare', icon: <Moon size={48} />, x: 10, y: 190, color: "#9f7aea", dareText: "Dare: Do a Bengali accent for the next 5 minutes!" },
+  { id: 1, type: 'dare', icon: <Flower size={48} />, x: 10, y: 30, color: "#ffeb3b", dareText: "Dare:Oru 5 instant shots of anything posted to your insta by others" },
+  { id: 2, type: 'dare', icon: <Star size={48} />, x: 85, y: 50, color: "#00C896", dareText: "Dare:Confess one thing you promised no one would know" },
+  { id: 3, type: 'dare', icon: <Sparkles size={48} />, x: 15, y: 90, color: "#3366FF", dareText: "Dare:Tell us who was the best in the team(ellarum enne paranjal idi anne" },
+  { id: 4, type: 'dare', icon: <Sun size={48} />, x: 75, y: 140, color: "#FF9900", dareText: "Dare:Ellarkum icecream mediche koduke" },
+  { id: 5, type: 'dare', icon: <Moon size={48} />, x: 10, y: 190, color: "#9f7aea", dareText: "Dare:You are free, rekshapettu inni odiko!" },
   { id: 6, type: 'dare', icon: <Flame size={48} />, x: 80, y: 20, color: "#FF3366", dareText: "Dare: Run till the beach" },
   { id: 7, type: 'dare', icon: <Zap size={48} />, x: 5, y: 65, color: "#00E5FF", dareText: "Dare: Do 10 pushups immediately." },
   { id: 8, type: 'dare', icon: <Heart size={48} />, x: 85, y: 110, color: "#FF1493", dareText: "Dare:Kudikan ndelum ellarkum mediche thaa" },
@@ -89,29 +89,29 @@ const CoreMemories = () => {
       <AnimatePresence>
         {visibleMemories.map((id) => {
           const item = hiddenItems.find(d => d.id === id);
-        if (item.type !== 'memory') return null;
+          if (item.type !== 'memory') return null;
 
-        return (
-          <motion.div
-            key={`memory-${id}`}
-            className="polaroid-wrapper core-memory-polaroid"
-            initial={{ scale: 0, opacity: 0, y: 100 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", bounce: 0.6 }}
-            style={{
-              position: 'fixed',
-              top: '20vh',
-              left: 'calc(50vw - 160px)',
-              zIndex: 10000
-            }}
-            drag
-            dragConstraints={containerRef}
-            whileDrag={{ scale: 1.05, cursor: 'grabbing', zIndex: 10001 }}
-            whileHover={{ scale: 1.02 }}
-          >
-            <MemoryCard memory={item.memory} isLast={false} />
-            <div className="core-badge">CORE MEMORY</div>
+          return (
+            <motion.div
+              key={`memory-${id}`}
+              className="polaroid-wrapper core-memory-polaroid"
+              initial={{ scale: 0, opacity: 0, y: 100, x: '-50%' }}
+              animate={{ scale: 1, opacity: 1, y: 0, x: '-50%' }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ type: "spring", bounce: 0.6 }}
+              style={{
+                position: 'fixed',
+                top: '20vh',
+                left: '50%',
+                zIndex: 10000
+              }}
+              drag
+              dragConstraints={containerRef}
+              whileDrag={{ scale: 1.05, cursor: 'grabbing', zIndex: 10001 }}
+              whileHover={{ scale: 1.02 }}
+            >
+              <MemoryCard memory={item.memory} isLast={false} />
+              <div className="core-badge">CORE MEMORY</div>
             </motion.div>
           );
         })}

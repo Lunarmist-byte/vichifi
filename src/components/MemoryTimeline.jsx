@@ -130,6 +130,9 @@ const MemoryTimeline = () => {
   const [unlockedNodes, setUnlockedNodes] = useState([0]);
   const containerRef = useRef(null);
 
+  const currentMaxY = Math.max(...unlockedNodes) * 260 + 200;
+  const calculatedHeight = currentMaxY + 800;
+
   const handleUnlockNext = (id) => {
     if (!unlockedNodes.includes(id + 1) && id < memoryData.length - 1) {
       setUnlockedNodes(prev => [...prev, id + 1]);
@@ -137,7 +140,7 @@ const MemoryTimeline = () => {
   };
 
   return (
-    <section id="timeline" className="timeline-container" ref={containerRef}>
+    <section id="timeline" className="timeline-container" ref={containerRef} style={{ minHeight: `${calculatedHeight}px`, overflow: 'hidden' }}>
       <div style={{ display: 'none' }}>
         {memoryData.filter(m => m.type === 'tv').map(m => (
           <video key={`preload-${m.id}`} src={m.videoUrl} preload="auto" muted playsInline />
@@ -173,9 +176,18 @@ const MemoryNode = ({ memory, index, isUnlocked, onUnlock, isLast, containerRef 
 
   const basePathY = index * 260 + 200;
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const isLeft = index % 2 === 0;
-  const sideOffset = isLeft ? -150 : 150;
-  const randomXOffset = useRef((Math.random() - 0.5) * 150).current;
+  const sideOffset = isMobile ? (isLeft ? -20 : 20) : (isLeft ? -150 : 150);
+  const randomXOffset = useRef((Math.random() - 0.5) * (window.innerWidth < 768 ? 40 : 150)).current;
   const randomYOffset = useRef((Math.random() - 0.5) * 80).current;
 
   const targetX = sideOffset + randomXOffset;
@@ -186,9 +198,9 @@ const MemoryNode = ({ memory, index, isUnlocked, onUnlock, isLast, containerRef 
   return (
     <motion.div
       className="polaroid-wrapper"
-      style={{ top: 0, left: '50%', marginLeft: '-160px', marginTop: '0' }}
-      initial={{ opacity: 0, scale: 0.5, y: targetY + 100, x: targetX, rotate: randomRotate - 20 }}
-      animate={{ opacity: 1, scale: 1, y: targetY, rotate: randomRotate, x: targetX }}
+      style={{ top: 0, left: '50%', x: '-50%' }}
+      initial={{ opacity: 0, scale: 0.5, y: targetY + 100, x: `calc(-50% + ${targetX}px)`, rotate: randomRotate - 20 }}
+      animate={{ opacity: 1, scale: 1, y: targetY, rotate: randomRotate, x: `calc(-50% + ${targetX}px)` }}
       transition={{ type: "spring", bounce: 0.4, duration: 1.2 }}
       drag
       whileDrag={{ scale: 1.08, rotate: 0, zIndex: 50, cursor: 'grabbing' }}
