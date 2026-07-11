@@ -78,6 +78,8 @@ const UserDoodleLayer = () => {
     ctx.lineWidth = 6;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = color;
     ctx.stroke();
   };
 
@@ -180,6 +182,7 @@ const UserDoodleLayer = () => {
               strokeWidth="6" 
               strokeLinecap="round" 
               strokeLinejoin="round" 
+              style={{ filter: `drop-shadow(0px 0px 8px ${stroke.color})` }}
             />
           </motion.svg>
         ))}

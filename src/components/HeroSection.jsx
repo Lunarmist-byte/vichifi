@@ -55,14 +55,7 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       >
-        <motion.h1 
-          className="hero-title"
-          drag={isDraggable}
-          dragMomentum={true}
-          whileDrag={isDraggable ? { cursor: 'grabbing', scale: 1.1, zIndex: 100 } : {}}
-          whileHover={isDraggable ? { cursor: 'grab' } : {}}
-          style={{ userSelect: 'none' }}
-        >
+        <h1 className="hero-title">
           {title.map((word, i) => {
             const segmenter = new Intl.Segmenter('ml', { granularity: 'grapheme' });
             const letters = Array.from(segmenter.segment(word)).map(s => s.segment);
@@ -70,14 +63,26 @@ const HeroSection = () => {
             return (
               <span key={i} className="title-word">
                 {letters.map((char, j) => (
-                  <span key={j} className="title-letter">
+                  <motion.span 
+                    key={j} 
+                    className="title-letter"
+                    drag={isDraggable}
+                    dragMomentum={true}
+                    whileDrag={isDraggable ? { cursor: 'grabbing', scale: 1.2, zIndex: 100 } : {}}
+                    whileHover={isDraggable ? { cursor: 'grab' } : {}}
+                    style={{ 
+                      display: 'inline-block', 
+                      userSelect: 'none',
+                      transition: isDraggable ? 'none' : undefined 
+                    }}
+                  >
                     {char}
-                  </span>
+                  </motion.span>
                 ))}
               </span>
             );
           })}
-        </motion.h1>
+        </h1>
         <motion.p
           className="hero-subtitle"
           initial={{ opacity: 0 }}
