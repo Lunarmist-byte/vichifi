@@ -49,19 +49,30 @@ const decorations = [
 const DecorationItem = ({ dec, index }) => {
   const [isStuck, setIsStuck] = useState(false);
   const [isOrganized, setIsOrganized] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsOrganized(false), 13000);
     return () => clearTimeout(timer);
   }, []);
 
-  const cols = 5;
-  const neatX = (index % cols) * 160 - (cols * 160) / 2 + 80;
-  const neatY = Math.floor(index / cols) * 160 - 200;
+  const cols = isMobile ? 3 : 5;
+  const colWidth = isMobile ? 110 : 160;
+  const neatX = (index % cols) * colWidth - (cols * colWidth) / 2 + (colWidth / 2);
+  const neatY = Math.floor(index / cols) * (isMobile ? 120 : 160) - 200;
 
-  const currentX = isOrganized ? neatX : dec.x;
-  const currentY = isOrganized ? neatY : dec.y;
+  const mobileScaleX = isMobile ? 0.35 : 1;
+  const mobileScaleY = isMobile ? 0.8 : 1;
+
+  const currentX = isOrganized ? neatX : dec.x * mobileScaleX;
+  const currentY = isOrganized ? neatY : dec.y * mobileScaleY;
   const currentRotate = isOrganized ? 0 : dec.rotate;
 
   const startPress = () => {
@@ -128,9 +139,17 @@ const DecorationItem = ({ dec, index }) => {
 
 const MemoryTimeline = () => {
   const [unlockedNodes, setUnlockedNodes] = useState([0]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const containerRef = useRef(null);
 
-  const currentMaxY = Math.max(...unlockedNodes) * 260 + 200;
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const ySpacing = isMobile ? 350 : 260;
+  const currentMaxY = Math.max(...unlockedNodes) * ySpacing + 200;
   const calculatedHeight = currentMaxY + 800;
 
   const handleUnlockNext = (id) => {
@@ -174,8 +193,6 @@ const MemoryTimeline = () => {
 const MemoryNode = ({ memory, index, isUnlocked, onUnlock, isLast, containerRef }) => {
   const randomRotate = useRef((Math.random() - 0.5) * 40).current;
 
-  const basePathY = index * 260 + 200;
-
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -184,6 +201,11 @@ const MemoryNode = ({ memory, index, isUnlocked, onUnlock, isLast, containerRef 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const ySpacing = isMobile ? 350 : 260;
+  const basePathY = index * ySpacing + 200;
+
+
 
   const isLeft = index % 2 === 0;
   const sideOffset = isMobile ? (isLeft ? -20 : 20) : (isLeft ? -150 : 150);

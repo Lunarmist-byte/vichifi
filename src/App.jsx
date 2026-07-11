@@ -20,7 +20,7 @@ function App() {
       <BackgroundDoodles />
 
       <main>
-        <div style={{ height: '100vh', width: '100%', pointerEvents: 'none' }} className="doodle-buffer-space" />
+        <div style={{ height: '100vh', width: '100%', pointerEvents: 'none', position: 'absolute', top: 0, left: 0 }} className="doodle-buffer-space" />
         <HeroSection />
         <MemoryTimeline />
         <CoreMemories />
