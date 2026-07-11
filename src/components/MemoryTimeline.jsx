@@ -52,7 +52,7 @@ const DecorationItem = ({ dec, index }) => {
   const timerRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOrganized(false), 3000);
+    const timer = setTimeout(() => setIsOrganized(false), 13000);
     return () => clearTimeout(timer);
   }, []);
 

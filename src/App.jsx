@@ -1,5 +1,6 @@
 import React from 'react';
 import CustomCursor from './components/CustomCursor';
+import SplashScreen from './components/SplashScreen';
 import BackgroundDoodles from './components/BackgroundDoodles';
 import UserDoodleLayer from './components/UserDoodleLayer';
 import HeroSection from './components/HeroSection';
@@ -10,6 +11,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div className="app-container">
+      <SplashScreen />
       <CustomCursor />
       
       {/* Allows user to draw on the screen */}
@@ -18,6 +20,7 @@ function App() {
       <BackgroundDoodles />
 
       <main>
+        <div style={{ height: '100vh', width: '100%', pointerEvents: 'none' }} className="doodle-buffer-space" />
         <HeroSection />
         <MemoryTimeline />
         <CoreMemories />

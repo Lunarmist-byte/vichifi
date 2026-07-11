@@ -5,7 +5,7 @@ import '../styles/index.css';
 
 const UserDoodleLayer = () => {
   const canvasRef = useRef(null);
-  const [isDrawingMode, setIsDrawingMode] = useState(false);
+  const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState('#FF3366');
   
@@ -22,6 +22,13 @@ const UserDoodleLayer = () => {
     localStorage.setItem('vichifi_doodles', JSON.stringify(strokes));
   }, [strokes]);
   
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDrawingMode(false);
+    }, 10000); // Stop doodling when splash screen ends
+    return () => clearTimeout(timer);
+  }, []);
+
   const currentPointsRef = useRef([]);
 
   useEffect(() => {
