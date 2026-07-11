@@ -138,6 +138,11 @@ const MemoryTimeline = () => {
 
   return (
     <section id="timeline" className="timeline-container" ref={containerRef}>
+      <div style={{ display: 'none' }}>
+        {memoryData.filter(m => m.type === 'tv').map(m => (
+          <video key={`preload-${m.id}`} src={m.videoUrl} preload="auto" muted playsInline />
+        ))}
+      </div>
       <div className="desk-surface">
 
         {decorations.map((dec, index) => (
