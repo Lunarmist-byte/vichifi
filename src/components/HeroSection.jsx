@@ -11,7 +11,7 @@ const HeroSection = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDraggable(true);
-    }, 20000);
+    }, 1000); // 1 second buffer
     return () => clearTimeout(timer);
   }, []);
 

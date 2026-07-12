@@ -173,13 +173,13 @@ const UserDoodleLayer = () => {
               top: stroke.minY,
               width: stroke.width,
               height: stroke.height,
-              zIndex: 9998,
+              zIndex: 9,
               cursor: 'grab'
             }}
             viewBox={`${stroke.minX} ${stroke.minY} ${stroke.width} ${stroke.height}`}
             drag
             dragMomentum={true}
-            whileDrag={{ scale: 1.1, cursor: 'grabbing', zIndex: 9999 }}
+            whileDrag={{ scale: 1.1, cursor: 'grabbing', zIndex: 15 }}
             whileHover={{ scale: 1.05 }}
           >
             <path 

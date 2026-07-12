@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flower, Star, Sparkles, Sun, Moon, Heart, Flame, Zap, Camera, Music } from 'lucide-react';
 import MemoryCard from './MemoryCard';
@@ -24,6 +24,14 @@ const CoreMemories = () => {
   const [inputValue, setInputValue] = useState('');
   const [isError, setIsError] = useState(false);
   const containerRef = useRef(null);
+  
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleDoodleClick = (doodle) => {
     if (!unlockedMemories.includes(doodle.id)) {
@@ -72,7 +80,7 @@ const CoreMemories = () => {
               left: `${doodle.x}vw`,
               top: `${doodle.y}vh`,
               color: isUnlocked ? '#888' : doodle.color,
-              filter: isUnlocked ? 'none' : `drop-shadow(0 0 10px ${doodle.color}) drop-shadow(0 0 20px ${doodle.color}) drop-shadow(0 0 40px ${doodle.color})`,
+              filter: isUnlocked ? 'none' : (isMobile ? `drop-shadow(0 0 8px ${doodle.color})` : `drop-shadow(0 0 10px ${doodle.color}) drop-shadow(0 0 20px ${doodle.color}) drop-shadow(0 0 40px ${doodle.color})`),
               pointerEvents: isUnlocked ? 'none' : 'auto',
               opacity: isUnlocked ? 0.3 : 1
             }}
@@ -95,17 +103,21 @@ const CoreMemories = () => {
             <motion.div
               key={`memory-${id}`}
               className="polaroid-wrapper core-memory-polaroid"
-              initial={{ scale: 0, opacity: 0, y: 100, x: '-50%' }}
-              animate={{ scale: 1, opacity: 1, y: 0, x: '-50%' }}
+              initial={{ scale: 0, opacity: 0, y: 100, x: 0 }}
+              animate={{ scale: 1, opacity: 1, y: 0, x: 0 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", bounce: 0.6 }}
               style={{
                 position: 'fixed',
                 top: '20vh',
                 left: '50%',
+                marginLeft: '-160px',
+                touchAction: 'none',
                 zIndex: 10000
               }}
               drag
+              dragElastic={0.4}
+              dragTransition={{ bounceStiffness: 400, bounceDamping: 25 }}
               dragConstraints={containerRef}
               whileDrag={{ scale: 1.05, cursor: 'grabbing', zIndex: 10001 }}
               whileHover={{ scale: 1.02 }}

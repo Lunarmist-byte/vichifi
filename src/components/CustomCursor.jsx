@@ -40,7 +40,9 @@ const CustomCursor = () => {
       width: 20,
       transition: {
         type: 'spring',
-        mass: 0.1,
+        stiffness: 800,
+        damping: 35,
+        mass: 0.5
       },
     },
     hover: {
@@ -52,7 +54,9 @@ const CustomCursor = () => {
       border: '2px solid rgba(255, 255, 255, 0.8)',
       transition: {
         type: 'spring',
-        mass: 0.1,
+        stiffness: 800,
+        damping: 35,
+        mass: 0.5
       },
     },
   };

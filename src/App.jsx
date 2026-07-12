@@ -1,5 +1,4 @@
 import React from 'react';
-import CustomCursor from './components/CustomCursor';
 import SplashScreen from './components/SplashScreen';
 import BackgroundDoodles from './components/BackgroundDoodles';
 import UserDoodleLayer from './components/UserDoodleLayer';
@@ -12,7 +11,6 @@ function App() {
   return (
     <div className="app-container">
       <SplashScreen />
-      <CustomCursor />
       
       {/* Allows user to draw on the screen */}
       <UserDoodleLayer />

@@ -220,11 +220,13 @@ const MemoryNode = ({ memory, index, isUnlocked, onUnlock, isLast, containerRef 
   return (
     <motion.div
       className="polaroid-wrapper"
-      style={{ top: 0, left: '50%', x: '-50%' }}
-      initial={{ opacity: 0, scale: 0.5, y: targetY + 100, x: `calc(-50% + ${targetX}px)`, rotate: randomRotate - 20 }}
-      animate={{ opacity: 1, scale: 1, y: targetY, rotate: randomRotate, x: `calc(-50% + ${targetX}px)` }}
+      style={{ top: 0, left: '50%', marginLeft: isMobile ? '-130px' : '-160px', touchAction: 'none' }}
+      initial={{ opacity: 0, scale: 0.5, y: targetY + 100, x: targetX, rotate: randomRotate - 20 }}
+      animate={{ opacity: 1, scale: 1, y: targetY, rotate: randomRotate, x: targetX }}
       transition={{ type: "spring", bounce: 0.4, duration: 1.2 }}
       drag
+      dragElastic={0.4}
+      dragTransition={{ bounceStiffness: 400, bounceDamping: 25 }}
       whileDrag={{ scale: 1.08, rotate: 0, zIndex: 50, cursor: 'grabbing' }}
       whileHover={{ scale: 1.02, zIndex: 40 }}
       onDragEnd={(e, info) => {
