@@ -11,7 +11,7 @@ const memoryData = [
   { id: 3, type: 'polaroid', title: "Bomb Velayudhan", date: "26 August 2025", description: "Ayyoo Ente Bomb!!!", imageUrl: "/assets/polaroids/memory3.jpg", videoUrl: null },
   { id: 4, type: 'polaroid', title: "Onam matrimony.com", date: "26 August 2025", description: "Ente ee style aleeee....style inne othe figure alee...", imageUrl: "/assets/polaroids/memory4.jpg", videoUrl: null },
   { id: 5, type: 'polaroid', title: "Ambiyum Anyanum", date: "16 September 2025", description: "Vidamateeee!!!!", imageUrl: "/assets/polaroids/memory5.jpg", videoUrl: null },
-  { id: 6, type: 'tv', title: "Swalpam Aesthetics agum", date: "24 September 2025", description: "", imageUrl: null, videoUrl: "/assets/videos/video6.mp4" },
+  { id: 6, type: 'tv', title: "Swalpam Aesthetics agum", date: "24 September 2025", description: "", imageUrl: null, videoUrl: "/assets/videos/video61.mp4" },
   { id: 7, type: 'polaroid', title: "Chai in the wild", date: "18 September 2025", description: "Enneyo, innoo, thingalazcheyo,velliyaazhcha aavatte!!", imageUrl: "/assets/polaroids/memory7.jpg", videoUrl: null },
   { id: 8, type: 'polaroid', title: "Tinker-Bazaar", date: "6 October 2025", description: "kadann varu kandann varu Onn eduthal 2 ennom free", imageUrl: "/assets/polaroids/memory8.jpg", videoUrl: null },
   { id: 9, type: 'polaroid', title: "Major Sreekumar", date: "15 October 2025", description: "Chumma irikk pillere enikk naanam varunnu", imageUrl: "/assets/polaroids/memory9.jpg", videoUrl: null },
